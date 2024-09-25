@@ -154,6 +154,7 @@ export class Auth0Plugin implements Auth0VueClient {
 
   private async __checkSession(router?: Router) {
     const search = window.location.search;
+    const basePath = this.pluginOptions?.basePath ?? '/';
 
     try {
       if (
@@ -165,7 +166,7 @@ export class Auth0Plugin implements Auth0VueClient {
         const appState = result?.appState;
         const target = appState?.target ?? '/';
 
-        window.history.replaceState({}, '', '/');
+        window.history.replaceState({}, '', basePath);
 
         if (router) {
           router.push(target);
@@ -179,7 +180,7 @@ export class Auth0Plugin implements Auth0VueClient {
       // __checkSession should never throw an exception as it will fail installing the plugin.
       // Instead, errors during __checkSession are propagated using the errors property on `useAuth0`.
 
-      window.history.replaceState({}, '', '/');
+      window.history.replaceState({}, '', basePath);
 
       if (router) {
         router.push(this.pluginOptions?.errorPath || '/');
